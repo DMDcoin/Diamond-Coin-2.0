@@ -11,6 +11,7 @@ DEFS=-DBOOST_SPIRIT_THREADSAFE
 
 DEFS += $(addprefix -I,$(CURDIR) $(CURDIR)/obj $(BOOST_INCLUDE_PATH) $(BDB_INCLUDE_PATH) $(OPENSSL_INCLUDE_PATH))
 LIBS = $(addprefix -L,$(BOOST_LIB_PATH) $(BDB_LIB_PATH) $(OPENSSL_LIB_PATH))
+INC = $(addprefix -I,$(CURDIR)/hash)
 
 TESTDEFS = -DTEST_DATA_DIR=$(abspath test/data)
 
@@ -101,6 +102,7 @@ xCXXFLAGS=-O2 -msse2 -pthread -Wall -Wextra -Wformat -Wformat-security -Wno-unus
 xLDFLAGS=$(LDHARDENING) $(LDFLAGS)
 
 OBJS= \
+    obj/groestl.o \
     obj/alert.o \
     obj/version.o \
     obj/checkpoints.o \
@@ -161,6 +163,13 @@ obj/%.o: %.cpp
 	  sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
 	      -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
 	  rm -f $(@:%.o=%.d)
+
+obj/%.o: %.c
+	$(CXX) -c $(xCXXFLAGS) -fpermissive -MMD -MF $(@:%.o=%.d) -o $@ $<
+	@cp $(@:%.o=%.d) $(@:%.o=%.P); \
+	  sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+	      -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
+	rm -f $(@:%.o=%.d)
 
 diamondd: $(OBJS:obj/%=obj/%)
 	$(LINK) $(xCXXFLAGS) -o $@ $^ $(xLDFLAGS) $(LIBS)

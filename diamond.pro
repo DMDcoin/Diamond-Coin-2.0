@@ -1,10 +1,11 @@
 TEMPLATE = app
 TARGET = diamond-qt
-VERSION = 0.7.2
+VERSION = 0.1.0.2
 INCLUDEPATH += src src/json src/qt
 QT += core gui network
 DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE BOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN __NO_SYSTEM_INCLUDES
 CONFIG += no_include_pwd
+CONFIG += exceptions
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 lessThan(QT_MAJOR_VERSION, 5): CONFIG += static
 
@@ -22,8 +23,8 @@ BDB_LIB_PATH=C:/deps/db-4.8.30.NC/build_windows
 OPENSSL_INCLUDE_PATH=C:/deps/openssl-1.0.1g/include
 OPENSSL_LIB_PATH=C:/deps/openssl-1.0.1g
 MINIUPNPC_INCLUDE_PATH=C:/deps
-LIBPNG_INCLUDE_PATH=C:/deps/libpng-1.6.8
-LIBPNG_LIB_PATH=C:/deps/libpng-1.6.8/.libs
+LIBPNG_INCLUDE_PATH=C:/deps/libpng1610
+LIBPNG_LIB_PATH=C:/deps/libpng1610/.libs
 MINIUPNPC_LIB_PATH=C:/deps/miniupnpc
 QRENCODE_LIB_PATH=C:/deps/qrencode-3.4.3/.libs
 
@@ -190,10 +191,10 @@ HEADERS += src/qt/bitcoingui.h \
     src/version.h \
     src/netbase.h \
     src/clientversion.h \
-    src/hash/sph_groestl.h \
-    src/hash/sph_types.h \
     src/hash.h \
-    src/scrypt.h
+    src/scrypt.h \
+    src/sph_groestl.h \
+    src/sph_types.h
 
 SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/qt/transactiontablemodel.cpp \
@@ -259,9 +260,9 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/scrypt-x86_64.S \
     src/scrypt_mine.cpp \
     src/pbkdf2.cpp \
-    src/hash/groestl.c \
     src/hash.cpp \
-    src/scrypt.cpp
+    src/scrypt.cpp \
+    src/groestl.c
 
 RESOURCES += \
     src/qt/bitcoin.qrc

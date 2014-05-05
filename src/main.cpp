@@ -4547,7 +4547,7 @@ void BitcoinMiner(CWallet *pwallet, bool fProofOfStake)
 
             if(totalCoin < VALUE_CHANGE)
             {
-                scrypt_1024_1_1_256_sp(BEGIN(pblock->nVersion), BEGIN(thash), scratchpad);
+                //scrypt_1024_1_1_256_sp(BEGIN(pblock->nVersion), BEGIN(thash), scratchpad);
 
                 if (thash <= hashTarget)
                 {
